@@ -1,7 +1,21 @@
+import Link from 'next/link'
+
+// Dependencies
+import { Button } from '@/components/ui/button'
+
 const HomePage = () => {
   return(
     <div>
-      Home Page
+      <Link href="/sign-in">
+        <Button>
+          Sign In
+        </Button>
+      </Link>
+      <Link href="/sign-up">
+        <Button>
+          Sign Up
+        </Button>
+      </Link>
     </div>
   )
 }
