@@ -75,7 +75,7 @@ const CodePage = () => {
     <div>
       <Heading
         title="Code Generator AI"
-        description="A simple Code Generator AI"
+        description="A simple code generator AI"
         icon={ CodeIcon }
         iconColor="text-emerald-500"
         bgColor="bg-emerald-500/10"
@@ -86,6 +86,7 @@ const CodePage = () => {
             <form
               className="rounded-lg vorder w-full py-4 px-3 md:px-6 focus-within:shadow-sm grid grid-cols-12 gap-2"
               onSubmit={ form.handleSubmit(onSubmit) }
+              autoComplete="off"
             >
               <FormField
                 name="prompt"

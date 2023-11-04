@@ -85,6 +85,7 @@ const ConversationPage = () => {
             <form
               className="rounded-lg border w-full py-4 px-3 md:px-6 focus-within:shadow-sm grid grid-cols-12 gap-2"
               onSubmit={ form.handleSubmit(onSubmit) }
+              autoComplete="off"
             >
               <FormField
                 name="prompt"
