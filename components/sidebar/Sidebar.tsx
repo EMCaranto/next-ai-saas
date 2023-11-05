@@ -13,7 +13,7 @@ import {
   MessageSquareIcon,
   MusicIcon,
   SettingsIcon,
-  VideoIcon
+  VideoIcon,
 } from 'lucide-react'
 
 // Library
@@ -62,66 +62,39 @@ const routes = [
     icon: SettingsIcon,
     label: 'Settings',
     href: '/settings',
-  }
+  },
 ]
 
 export const Sidebar = () => {
   const pathname = usePathname()
 
-  return(
-    <div className="flex flex-col h-full space-y-4 py-4 text-slate-200 bg-slate-800">
+  return (
+    <div className="flex h-full flex-col space-y-4 bg-slate-800 py-4 text-slate-200">
       <div className="flex-1 px-3 py-2">
-        <Link
-          className="flex items-center pl-3 mb-14"
-          href="/dashboard"
-        >
-          <div className="relative h-10 w-10 mr-2">
-            <Image
-              src="/logo.png"
-              alt="logo"
-              fill
-            />
+        <Link className="mb-14 flex items-center pl-3" href="/dashboard">
+          <div className="relative mr-2 h-10 w-10">
+            <Image src="/logo.png" alt="logo" fill />
           </div>
-          <h1
-            className={
-              cn(
-                "text-2xl font-bold",
-                font.className
-              )
-            }
-          >
-            EMCube
-          </h1>
+          <h1 className={cn('text-2xl font-bold', font.className)}>EMCube</h1>
         </Link>
         <div className="space-y-1">
-          {
-            routes.map((route) => (
-              <Link
-                className={
-                  cn(
-                    "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-slate-200 hover:bg-slate-200/10 rounded-lg transition",
-                    pathname == route.href
-                    ? "text-slate-200 bg-slate-200/10"
-                    : "text-slate-400"
-                  )
-                }
-                href={ route.href }
-                key={ route.href }
-              >
-                <div className="flex items-center flex-1">
-                  <route.icon
-                    className={
-                      cn(
-                        "h-5 w-5 mr-3",
-                        route.color
-                      )
-                    }
-                  />
-                  { route.label }
-                </div>
-              </Link>
-            ))
-          }
+          {routes.map((route) => (
+            <Link
+              className={cn(
+                'group flex w-full cursor-pointer justify-start rounded-lg p-3 text-sm font-medium transition hover:bg-slate-200/10 hover:text-slate-200',
+                pathname == route.href
+                  ? 'bg-slate-200/10 text-slate-200'
+                  : 'text-slate-400'
+              )}
+              href={route.href}
+              key={route.href}
+            >
+              <div className="flex flex-1 items-center">
+                <route.icon className={cn('mr-3 h-5 w-5', route.color)} />
+                {route.label}
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </div>

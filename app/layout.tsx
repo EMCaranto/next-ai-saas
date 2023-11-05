@@ -14,13 +14,15 @@ export const metadata: Metadata = {
   description: 'A Simple AI Platform',
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={ font.className }>
-          { children }
-        </body>
+        <body className={font.className}>{children}</body>
       </html>
     </ClerkProvider>
   )

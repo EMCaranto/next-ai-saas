@@ -5,7 +5,7 @@ import { auth } from '@clerk/nextjs'
 import { Configuration, OpenAIApi } from 'openai'
 
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: process.env.OPENAI_API_KEY,
 })
 
 const openai = new OpenAIApi(configuration)
@@ -40,12 +40,11 @@ export async function POST(request: Request) {
     const response = await openai.createImage({
       prompt: prompt,
       size: resolution,
-      n: parseInt(amount, 10)
+      n: parseInt(amount, 10),
     })
 
     return NextResponse.json(response.data.data)
-  }
-  catch (error) {
+  } catch (error) {
     console.log('[IMAGE_GENERATION_ERROR]', error)
     return new NextResponse('Internal Error', { status: 500 })
   }

@@ -5,14 +5,15 @@ import { auth } from '@clerk/nextjs'
 import { ChatCompletionRequestMessage, Configuration, OpenAIApi } from 'openai'
 
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: process.env.OPENAI_API_KEY,
 })
 
 const openai = new OpenAIApi(configuration)
 
 const instructionMessage: ChatCompletionRequestMessage = {
   role: 'system',
-  content: 'You are a code generator. You must asnwer only in a markdown code snippets. Use the code comments for explanations'
+  content:
+    'You are a code generator. You must asnwer only in a markdown code snippets. Use the code comments for explanations',
 }
 
 export async function POST(request: Request) {
@@ -36,12 +37,11 @@ export async function POST(request: Request) {
 
     const response = await openai.createChatCompletion({
       model: 'gtp-3.5-turbo',
-      messages: [instructionMessage, ...messages]
+      messages: [instructionMessage, ...messages],
     })
 
     return NextResponse.json(response.data.choices[0].message)
-  }
-  catch (error) {
+  } catch (error) {
     console.log('[CODE_GENERATION_ERROR]', error)
     return new NextResponse('Internal Error', { status: 500 })
   }

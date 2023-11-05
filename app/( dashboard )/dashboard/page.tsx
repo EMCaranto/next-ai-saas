@@ -3,7 +3,14 @@
 import { useRouter } from 'next/navigation'
 
 // Dependencies
-import { ArrowRightIcon, CodeIcon, ImageIcon, MessageSquareIcon, MusicIcon, VideoIcon } from 'lucide-react'
+import {
+  ArrowRightIcon,
+  CodeIcon,
+  ImageIcon,
+  MessageSquareIcon,
+  MusicIcon,
+  VideoIcon,
+} from 'lucide-react'
 
 // Components
 import { Card } from '@/components/ui/card'
@@ -46,54 +53,38 @@ const tools = [
     href: '/code',
     color: 'text-emerald-500',
     bgColor: 'bg-emerald-500/10',
-  }
+  },
 ]
 
 const DashboardPage = () => {
   const router = useRouter()
 
-  return(
+  return (
     <div>
       <div className="mb-8 space-y-4">
-        <h2 className="text-2xl md:text-4xl font-bold text-center">
+        <h2 className="text-center text-2xl font-bold md:text-4xl">
           Explore the power of AI tools
         </h2>
-        <p className="text-muted-foreground font-light text-sm md:text-lg text-center">
+        <p className="text-center text-sm font-light text-muted-foreground md:text-lg">
           Experience and Interact with this simple AI tools
         </p>
       </div>
-      <div className="px-4 md:px-20 lg:px-32 space-y-4">
-        {
-          tools.map((tool) => (
-            <Card
-              className="p-4 border-black/5 flex items-center justify-between hover:shadow-md transition cursor-pointer"
-              key={ tool.href }
-              onClick={ () => router.push(tool.href) }
-            >
-              <div className="flex items-center gap-x-4">
-                <div className={
-                  cn(
-                    "p-2 w-fit rounded-md",
-                    tool.bgColor
-                  )
-                }
-                >
-                  <tool.icon className={
-                    cn(
-                      "h-5 w-5",
-                      tool.color
-                    )
-                  }
-                  />
-                </div>
-                <div className="font-semibold">
-                  { tool.label }
-                </div>
+      <div className="space-y-4 px-4 md:px-20 lg:px-32">
+        {tools.map((tool) => (
+          <Card
+            className="flex cursor-pointer items-center justify-between border-black/5 p-4 transition hover:shadow-md"
+            key={tool.href}
+            onClick={() => router.push(tool.href)}
+          >
+            <div className="flex items-center gap-x-4">
+              <div className={cn('w-fit rounded-md p-2', tool.bgColor)}>
+                <tool.icon className={cn('h-5 w-5', tool.color)} />
               </div>
-              <ArrowRightIcon className="h-5 w-5" />
-            </Card>
-          ))
-        }
+              <div className="font-semibold">{tool.label}</div>
+            </div>
+            <ArrowRightIcon className="h-5 w-5" />
+          </Card>
+        ))}
       </div>
     </div>
   )

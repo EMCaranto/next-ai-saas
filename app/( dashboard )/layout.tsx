@@ -2,15 +2,15 @@
 import { Navbar } from '@/components/navbar/Navbar'
 import { Sidebar } from '@/components/sidebar/Sidebar'
 
-const DashboardLayout = ({ children } : { children: React.ReactNode }) => {
-  return(
-    <div className="h-full relative">
-      <div className="hidden h-full md:w-72 md:flex md:flex-col md:fixed md:inset-y-0 z-[80] bg-slate-800">
+const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="relative h-full">
+      <div className="z-[80] hidden h-full bg-slate-800 md:fixed md:inset-y-0 md:flex md:w-72 md:flex-col">
         <Sidebar />
       </div>
       <main className="md:pl-72">
         <Navbar />
-        { children }
+        {children}
       </main>
     </div>
   )

@@ -4,17 +4,13 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
 const HomePage = () => {
-  return(
+  return (
     <div>
       <Link href="/sign-in">
-        <Button>
-          Sign In
-        </Button>
+        <Button>Sign In</Button>
       </Link>
       <Link href="/sign-up">
-        <Button>
-          Sign Up
-        </Button>
+        <Button>Sign Up</Button>
       </Link>
     </div>
   )

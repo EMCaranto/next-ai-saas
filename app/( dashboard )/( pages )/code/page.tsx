@@ -16,12 +16,7 @@ import { formSchema } from './constant'
 
 // Components
 import { Button } from '@/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem
-} from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
 import { BotAvatar } from '@/components/avatar/BotAvatar'
@@ -34,139 +29,120 @@ import { Loader } from '@/components/loader/Loader'
 import { cn } from '@/lib/utils'
 
 const CodePage = () => {
-  const [ messages, setMessages ] = useState<ChatCompletionRequestMessage[]>([])
+  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([])
   const router = useRouter()
 
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
-      prompt: ''
+      prompt: '',
     },
-    resolver: zodResolver(formSchema)
+    resolver: zodResolver(formSchema),
   })
 
   const isLoading = form.formState.isSubmitting
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try{ 
+    try {
       const userMessage: ChatCompletionRequestMessage = {
         role: 'user',
-        content: values.prompt
+        content: values.prompt,
       }
 
       const newMessage = [...messages, userMessage]
 
       const response = await axios.post('/api/code', {
-        messages: newMessage
+        messages: newMessage,
       })
 
       setMessages((current) => [...current, userMessage, response.data])
 
       form.reset()
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error)
-    }
-    finally {
+    } finally {
       router.refresh()
     }
   }
 
-  return(
+  return (
     <div>
       <Heading
         title="Code Generator AI"
         description="A simple code generator AI"
-        icon={ CodeIcon }
+        icon={CodeIcon}
         iconColor="text-emerald-500"
         bgColor="bg-emerald-500/10"
       />
       <div className="px-4 lg:px-8">
         <div>
-          <Form { ...form }>
+          <Form {...form}>
             <form
-              className="rounded-lg vorder w-full py-4 px-3 md:px-6 focus-within:shadow-sm grid grid-cols-12 gap-2"
-              onSubmit={ form.handleSubmit(onSubmit) }
+              className="vorder grid w-full grid-cols-12 gap-2 rounded-lg px-3 py-4 focus-within:shadow-sm md:px-6"
+              onSubmit={form.handleSubmit(onSubmit)}
               autoComplete="off"
             >
               <FormField
                 name="prompt"
-                render={
-                  ({ field }) => (
-                    <FormItem className="col-span-12 lg:col-span-10">
-                      <FormControl className="m-0 p-0">
-                        <Input
-                          className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent px-4"
-                          placeholder="Type a message to generate a code"
-                          disabled={ isLoading }
-                          { ...field }
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )
-                }
+                render={({ field }) => (
+                  <FormItem className="col-span-12 lg:col-span-10">
+                    <FormControl className="m-0 p-0">
+                      <Input
+                        className="border-0 px-4 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
+                        placeholder="Type a message to generate a code"
+                        disabled={isLoading}
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
               />
               <Button
-                className="col-span-12 lg:col-span-2 w-full"
-                disabled={ isLoading }
+                className="col-span-12 w-full lg:col-span-2"
+                disabled={isLoading}
               >
                 Generate
               </Button>
             </form>
           </Form>
         </div>
-        <div className="space-y-4 mt-4">
-          {
-            isLoading && (
-              <div className="p-20 rounded-lg w-full flex items-center justify-center bg-muted">
-                <Loader />
-              </div>
-            )
-          }
-          {
-            messages.length === 0 && !isLoading && (
-              <Empty label="No session started" />
-            )
-          }
+        <div className="mt-4 space-y-4">
+          {isLoading && (
+            <div className="flex w-full items-center justify-center rounded-lg bg-muted p-20">
+              <Loader />
+            </div>
+          )}
+          {messages.length === 0 && !isLoading && (
+            <Empty label="No session started" />
+          )}
           <div className="flex flex-col-reverse gap-y-4">
-            {
-              messages.map((message) => (
-                <div
-                  className={
-                    cn(
-                      "p-8 w-full flex items-center gap-x-8 rounded-lg",
-                      message.role === "user"
-                      ? "bg-white border border-black/10"
-                      : "bg-muted"
-                    )
-                  }
-                  key={ message.content }
+            {messages.map((message) => (
+              <div
+                className={cn(
+                  'flex w-full items-center gap-x-8 rounded-lg p-8',
+                  message.role === 'user'
+                    ? 'border border-black/10 bg-white'
+                    : 'bg-muted'
+                )}
+                key={message.content}
+              >
+                {message.role === 'user' ? <UserAvatar /> : <BotAvatar />}
+                <ReactMarkdown
+                  className="overflow-hidden text-sm leading-7"
+                  components={{
+                    pre: ({ node, ...props }) => (
+                      <div className="my-2 w-full overflow-auto rounded-lg bg-black/10 p-2">
+                        <pre {...props} />
+                      </div>
+                    ),
+                    code: ({ node, ...props }) => (
+                      <code className="rounded-lg bg-black/10 p-1" {...props} />
+                    ),
+                  }}
                 >
-                  {
-                    message.role === "user"
-                    ? <UserAvatar />
-                    : <BotAvatar/>
-                  }
-                  <ReactMarkdown
-                    className="text-sm overflow-hidden leading-7"
-                    components={{
-                      pre: ({ node, ...props }) => (
-                        <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg">
-                          <pre { ...props } />
-                        </div>
-                      ),
-                      code: ({ node, ...props }) => (
-                        <code
-                          className="bg-black/10 rounded-lg p-1"
-                          { ...props }
-                        />
-                      )
-                    }}
-                  >
-                    { message.content || "" }
-                  </ReactMarkdown>
-                </div>
-              ))
-            }
+                  {message.content || ''}
+                </ReactMarkdown>
+              </div>
+            ))}
           </div>
         </div>
       </div>

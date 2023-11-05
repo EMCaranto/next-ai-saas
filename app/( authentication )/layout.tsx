@@ -1,8 +1,6 @@
-const AuthenticationLayout = ({ children } : { children: React.ReactNode }) => {
-  return(
-    <div className="flex items-center justify-center h-full">
-      { children }
-    </div>
+const AuthenticationLayout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="flex h-full  items-center justify-center">{children}</div>
   )
 }
 
