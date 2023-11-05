@@ -1,17 +1,12 @@
-import Link from 'next/link'
-
-// Dependencies
-import { Button } from '@/components/ui/button'
+// Components
+import { HomeHero } from '@/components/hero/HomeHero'
+import { HomeNavbar } from '@/components/navbar/HomeNavbar'
 
 const HomePage = () => {
   return (
-    <div>
-      <Link href="/sign-in">
-        <Button>Sign In</Button>
-      </Link>
-      <Link href="/sign-up">
-        <Button>Sign Up</Button>
-      </Link>
+    <div className="h-full">
+      <HomeNavbar />
+      <HomeHero />
     </div>
   )
 }
